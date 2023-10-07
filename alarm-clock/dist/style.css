@@ -1,0 +1,34 @@
+#display {
+  color: white;
+}
+
+.alarm-display {
+  color:white;
+  font-size:.5em;
+  margin-top: 0px;
+}
+
+.clock-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  text-align: center;
+  font-size: 5em;
+  border-radius: 25%;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  margin: 20px 20px;
+}
+
+.main-ctn {
+  background-color: black;
+}
+
+.alarm-ctn {
+  position: relative;
+}
+
+.alarm-ctn > buttons {
+}
