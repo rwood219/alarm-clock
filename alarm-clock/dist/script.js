@@ -2,7 +2,6 @@ var sound = new Audio(
   "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
 );
 sound.loop = true;
-let alarm = [];
 let d = new Date();
 let currentTime = d.toLocaleTimeString();
 const regex = /'\..\'/;
@@ -10,16 +9,7 @@ const regex = /'\..\'/;
 setDisplay = () => {
   const d = new Date();
   let currentTime = d.toLocaleTimeString();
-  date = new Date();
-  let alarmtime = `${alarm[0]}:${alarm[1]}:${regex} ${alarm[2]}`; //"2:16:15 PM";
   document.querySelector("#display").innerHTML = currentTime;
-  // console.log(alarmtime);
-  if (alarm.length > 3) {
-    alarm.length = 0;
-  }
-  if (alarmtime === currentTime) {
-    sound.play();
-  }
 };
 
 // adds alarms to ui Creates list items and put that string into a new alarms array to access later.
@@ -41,13 +31,13 @@ checkForAlarm = () => {
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
   for (i = 0; i <= newAlarms.length; i++) {
-    let alarmCheck = newAlarms[i];
-    if (currentTime === alarmCheck) {
-      console.log(currentTime, newAlarms[i]);
+    //let alarmCheck = newAlarms[i];
+    if (currentTime === newAlarms[i]) {
+      console.log(currentTime, newAlarms[i], "Alarm");
       sound.play();
     }
-    console.log(currentTime, newAlarms[i]);
   }
+  //console.log(currentTime, newAlarms[i], "No Alarm")  }
 };
 
 createHourOptions = () => {
@@ -76,24 +66,19 @@ createMinuteOptions = () => {
   }
 };
 
-document.querySelector("#alarm-set").addEventListener("click", () => {
-  setAlarm();
-});
-
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addMoreAlarms();
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
-  alarm.length = 0;
   newAlarms.pop();
-
-  document.querySelector(".alarm-display").innerHTML = " ";
+  //  document.querySelector(".alarm-display") = " ";
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
-  checkForAlarm();
+  //run clear function then set timeout for play.sound?
+  sound.pause();
 });
 
 //setDisplay();
@@ -102,13 +87,3 @@ createMinuteOptions();
 setInterval(setDisplay, 1000);
 setInterval(checkForAlarm, 1000);
 
-/*
-setAlarm = () => {
-  alarm.push(document.querySelector(".hours").value);
-  alarm.push(document.querySelector(".minutes").value);
-  alarm.push(document.querySelector(".amPm").value);
-  document.querySelector(
-    ".alarm-display"
-  ).innerHTML = `Alarm is set for ${alarm[0]}:${alarm[1]} ${alarm[2]}`;
-};
-*/
