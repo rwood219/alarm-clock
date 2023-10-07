@@ -2,16 +2,18 @@ var sound = new Audio(
   "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
 );
 sound.loop = true;
-
 let alarm = [];
+let d = new Date();
+let currentTime = d.toLocaleTimeString();
+const regex = /'\..\'/;
 
 setDisplay = () => {
+  const d = new Date();
+  let currentTime = d.toLocaleTimeString();
   date = new Date();
-  currentTime = date.toLocaleTimeString();
-  //let alarmtime = "7:55:00 PM";
-  let alarmtime = `${alarm[0]}:${alarm[1]}:00 ${alarm[2]}`; //"2:16:15 PM";
+  let alarmtime = `${alarm[0]}:${alarm[1]}:${regex} ${alarm[2]}`; //"2:16:15 PM";
   document.querySelector("#display").innerHTML = currentTime;
-  console.log(alarmtime);
+  // console.log(alarmtime);
   if (alarm.length > 3) {
     alarm.length = 0;
   }
@@ -20,16 +22,32 @@ setDisplay = () => {
   }
 };
 
-setAlarm = () => {
-  date = new Date();
-  let alarmHour = document.querySelector(".hours").value;
-  let alarmMinute = document.querySelector(".minutes").value;
-  alarm.push(alarmHour);
-  alarm.push(alarmMinute);
-  alarm.push(document.querySelector(".amPm").value);
-  document.querySelector(
-    ".alarm-display"
-  ).innerHTML = `Alarm is set for ${alarm[0]}:${alarm[1]} ${alarm[2]}`;
+// adds alarms to ui Creates list items and put that string into a new alarms array to access later.
+addMoreAlarms = () => {
+  newAlarmh = document.querySelector(".hours").value;
+  newAlarmM = document.querySelector(".minutes").value;
+  newAlarmAmPm = document.querySelector(".amPm").value;
+  let alarmli = document.createElement("li");
+  let alarmList = document.querySelector(".alarm-list");
+  let newLi = ` Alarm set for ${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`;
+  alarmList.append(newLi);
+  newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
+};
+
+let newAlarms = [];
+
+checkForAlarm = () => {
+  const alarmList = document.querySelectorAll(".alarm-list li");
+  let d = new Date();
+  let currentTime = d.toLocaleTimeString();
+  for (i = 0; i <= newAlarms.length; i++) {
+    let alarmCheck = newAlarms[i];
+    if (currentTime === alarmCheck) {
+      console.log(currentTime, newAlarms[i]);
+      sound.play();
+    }
+    console.log(currentTime, newAlarms[i]);
+  }
 };
 
 createHourOptions = () => {
@@ -62,17 +80,35 @@ document.querySelector("#alarm-set").addEventListener("click", () => {
   setAlarm();
 });
 
+document.querySelector("#add-more-alarms").addEventListener("click", () => {
+  addMoreAlarms();
+});
+
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
   alarm.length = 0;
+  newAlarms.pop();
+
   document.querySelector(".alarm-display").innerHTML = " ";
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
-  console.log(alarm.length);
+  checkForAlarm();
 });
 
-setDisplay();
+//setDisplay();
 createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
+setInterval(checkForAlarm, 1000);
+
+/*
+setAlarm = () => {
+  alarm.push(document.querySelector(".hours").value);
+  alarm.push(document.querySelector(".minutes").value);
+  alarm.push(document.querySelector(".amPm").value);
+  document.querySelector(
+    ".alarm-display"
+  ).innerHTML = `Alarm is set for ${alarm[0]}:${alarm[1]} ${alarm[2]}`;
+};
+*/

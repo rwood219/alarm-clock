@@ -3,32 +3,47 @@
 }
 
 .alarm-display {
-  color:white;
-  font-size:.5em;
-  margin-top: 0px;
+  color: white;
+  font-size: 1em;
+  margin: 0px;
+  display: flex;
 }
 
 .clock-body {
+  background: rgb(80, 86, 86);
+  background: radial-gradient(
+    circle,
+    rgba(80, 86, 86, 1) 0%,
+    rgba(35, 31, 26, 1) 100%
+  );
   display: flex;
   justify-content: center;
   align-items: center;
-  background: black;
   text-align: center;
   font-size: 5em;
   border-radius: 25%;
   position: absolute;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   margin: 20px 20px;
 }
 
 .main-ctn {
   background-color: black;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .alarm-ctn {
   position: relative;
 }
 
-.alarm-ctn > buttons {
+button {
+  border-radius: 100%;
+  padding: 10px;
+}
+
+.alarm-list {
+  display: inline-block;
 }
