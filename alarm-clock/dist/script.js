@@ -10,7 +10,6 @@ setDisplay = () => {
   document.querySelector("#display").innerHTML = currentTime;
 };
 
-// adds alarms to ui Creates list items and put that string into a new alarms array to access later.
 addMoreAlarms = () => {
   newAlarmh = document.querySelector(".hours").value;
   newAlarmM = document.querySelector(".minutes").value;
@@ -26,7 +25,6 @@ setAlarmList = () => {
 };
 
 checkForAlarm = () => {
-  let alarmList = document.querySelectorAll(".alarm-list li");
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
 
@@ -35,12 +33,9 @@ checkForAlarm = () => {
       sound.play();
     }
   }
-  //console.log(currentTime, newAlarms[i], "No Alarm")  }
 };
 
 createHourOptions = () => {
-  let newHourOption = document.createElement("option");
-  let select = document.querySelector(".hours");
   for (i = 1; i <= 12; i++) {
     var x = document.querySelector(".hours");
     var option = document.createElement("option");
@@ -50,8 +45,6 @@ createHourOptions = () => {
 };
 
 createMinuteOptions = () => {
-  let newMinuteOption = document.createElement("option");
-  let select = document.querySelector(".minutes");
   for (i = 0; i <= 59; i++) {
     var x = document.querySelector(".minutes");
     var option = document.createElement("option");
@@ -73,15 +66,12 @@ document.querySelector("#add-more-alarms").addEventListener("click", () => {
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
   newAlarms.pop();
-  //  document.querySelector(".alarm-display") = " ";
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
-  //run clear function then set timeout for play.sound?
   sound.pause();
 });
 
-//setDisplay();
 createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
