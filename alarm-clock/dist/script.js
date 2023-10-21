@@ -24,15 +24,18 @@ addAlarm = () => {
 };
 
 setAlarmList = () => {
-  let newLi = document.createElement("li");
-  let alarmList = document.querySelector(".alarm-list");
+  //get items form local storage
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
+  //generate html elements from local storage
+  console.log(storedAlarms[1], storedAlarms);
+  let alarmList = document.querySelector(".alarm-list");
 
-  for (i = 0; i < newAlarms.length; i++) {
+  for (i = 0; i < storedAlarms.length; i++) {
+    let newLi = document.createElement("li");
     newLi.innerText = storedAlarms[i];
+    alarmList.append(newLi);
   }
-  alarmList.append(newLi);
 };
 
 window.addEventListener("load", setAlarmList);
@@ -74,7 +77,6 @@ createMinuteOptions = () => {
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addAlarm();
   setAlarmList();
-  console.log(localStorage.getItem("alarms"));
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
