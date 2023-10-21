@@ -2,9 +2,7 @@ var sound = new Audio(
   "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
 );
 sound.loop = true;
-let d = new Date();
-let currentTime = d.toLocaleTimeString();
-const regex = /'\..\'/;
+let newAlarms = [];
 
 setDisplay = () => {
   const d = new Date();
@@ -17,23 +15,23 @@ addMoreAlarms = () => {
   newAlarmh = document.querySelector(".hours").value;
   newAlarmM = document.querySelector(".minutes").value;
   newAlarmAmPm = document.querySelector(".amPm").value;
-  let alarmli = document.createElement("li");
-  let alarmList = document.querySelector(".alarm-list");
-  let newLi = ` Alarm set for ${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`;
-  alarmList.append(newLi);
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
 };
 
-let newAlarms = [];
+setAlarmList = () => {
+  let newLi = document.createElement("li");
+  let alarmList = document.querySelector(".alarm-list");
+  newLi.innerText = newAlarms.slice(-1);
+  alarmList.append(newLi);
+};
 
 checkForAlarm = () => {
-  const alarmList = document.querySelectorAll(".alarm-list li");
+  let alarmList = document.querySelectorAll(".alarm-list li");
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
+
   for (i = 0; i <= newAlarms.length; i++) {
-    //let alarmCheck = newAlarms[i];
     if (currentTime === newAlarms[i]) {
-      console.log(currentTime, newAlarms[i], "Alarm");
       sound.play();
     }
   }
@@ -68,6 +66,8 @@ createMinuteOptions = () => {
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addMoreAlarms();
+  setAlarmList();
+  console.log(document.querySelector(".date-time").value);
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
@@ -86,4 +86,3 @@ createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
 setInterval(checkForAlarm, 1000);
-
