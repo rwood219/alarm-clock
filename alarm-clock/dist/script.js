@@ -10,26 +10,35 @@ setDisplay = () => {
   document.querySelector("#display").innerHTML = currentTime;
 };
 
+setAlarmsToStorage = () => {
+  const newAlarmsJson = JSON.stringify(newAlarms);
+  localStorage.setItem("alarms", newAlarmsJson);
+};
+
 addMoreAlarms = () => {
   newAlarmh = document.querySelector(".hours").value;
   newAlarmM = document.querySelector(".minutes").value;
   newAlarmAmPm = document.querySelector(".amPm").value;
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
+  setAlarmsToStorage()
 };
 
 setAlarmList = () => {
   let newLi = document.createElement("li");
   let alarmList = document.querySelector(".alarm-list");
-  newLi.innerText = newAlarms.slice(-1);
+  const storedAlarmsJson = localStorage.getItem("alarms");
+  const storedAlarms = JSON.parse(storedAlarmsJson);
+  newLi.innerText = storedAlarms.slice(-1);
   alarmList.append(newLi);
 };
 
 checkForAlarm = () => {
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
-
+  const storedAlarmsJson = localStorage.getItem("alarms");
+  const storedAlarms = JSON.parse(storedAlarmsJson);
   for (i = 0; i <= newAlarms.length; i++) {
-    if (currentTime === newAlarms[i]) {
+    if (currentTime === storedAlarms[i]) {
       sound.play();
     }
   }
@@ -60,7 +69,7 @@ createMinuteOptions = () => {
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addMoreAlarms();
   setAlarmList();
-  console.log(document.querySelector(".date-time").value);
+  console.log(localStorage.getItem('alarms'))
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
