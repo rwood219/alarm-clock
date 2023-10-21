@@ -15,12 +15,12 @@ setAlarmsToStorage = () => {
   localStorage.setItem("alarms", newAlarmsJson);
 };
 
-addMoreAlarms = () => {
+addAlarm = () => {
   newAlarmh = document.querySelector(".hours").value;
   newAlarmM = document.querySelector(".minutes").value;
   newAlarmAmPm = document.querySelector(".amPm").value;
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
-  setAlarmsToStorage()
+  setAlarmsToStorage();
 };
 
 setAlarmList = () => {
@@ -28,9 +28,14 @@ setAlarmList = () => {
   let alarmList = document.querySelector(".alarm-list");
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
-  newLi.innerText = storedAlarms.slice(-1);
+
+  for (i = 0; i < newAlarms.length; i++) {
+    newLi.innerText = storedAlarms[i];
+  }
   alarmList.append(newLi);
 };
+
+window.addEventListener("load", setAlarmList);
 
 checkForAlarm = () => {
   let d = new Date();
@@ -67,9 +72,9 @@ createMinuteOptions = () => {
 };
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
-  addMoreAlarms();
+  addAlarm();
   setAlarmList();
-  console.log(localStorage.getItem('alarms'))
+  console.log(localStorage.getItem("alarms"));
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
