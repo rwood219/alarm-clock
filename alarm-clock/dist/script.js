@@ -11,34 +11,40 @@ setDisplay = () => {
 };
 
 addAlarmToStorage = () => {
-  newAlarmh = document.querySelector(".hours").value;
-  newAlarmM = document.querySelector(".minutes").value;
-  newAlarmAmPm = document.querySelector(".amPm").value;
+  const newAlarmh = document.querySelector(".hours").value;
+  const newAlarmM = document.querySelector(".minutes").value;
+  const newAlarmAmPm = document.querySelector(".amPm").value;
+  const newAlarmTime = JSON.stringify(
+    `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`
+  );
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
   const newAlarmsJson = JSON.stringify(newAlarms);
   localStorage.setItem("alarms", newAlarmsJson);
-  console.log(localStorage.getItem('alarms'))
+  console.log(localStorage.getItem("alarms"));
 };
 
 setAlarmList = () => {
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
   let alarmList = document.querySelector(".alarm-list");
-  createLi(alarmList, storedAlarms)
-  console.log(storedAlarms)
+  storedAlarms.forEach((storedAlarms) => {
+    createLi(alarmList, storedAlarms);
+  });
+};
+
+updateAlarmList = () => {
+  let alarmList = document.querySelector(".alarm-list");
+  createLi(alarmList, newAlarms.slice(-1));
 };
 
 createLi = (x, y) => {
-let newLi = document.createElement('li')
-newLi.innerHTML = y
-x.append(newLi)
+  let newLi = document.createElement("li");
+  newLi.innerHTML = y;
+  x.append(newLi);
 };
 
-
-window.addEventListener("load", setAlarmList);
-
 const clearAllAlarms = () => {
-  localStorage.setItem("alarms", []);
+  localStorage.clear();
   console.log(localStorage.getItem("alarms"));
 };
 
@@ -46,14 +52,12 @@ checkForAlarm = () => {
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
-  try {
-    const storedAlarms = JSON.parse(storedAlarmsJson);
-  } catch (error) {
-    console.log("Error parsing JSON:", error);
-  }
-  for (i = 0; i <= newAlarms.length; i++) {
+  const storedAlarms = JSON.parse(storedAlarmsJson);
+  for (i = 0; i <= storedAlarms.length; i++) {
     if (currentTime === storedAlarms[i]) {
       sound.play();
+    } else {
+      console.log("no alarm");
     }
   }
 };
@@ -82,20 +86,21 @@ createMinuteOptions = () => {
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addAlarmToStorage();
-  setAlarmList();
+  updateAlarmList();
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
   clearAllAlarms();
-  newAlarms.pop(); //doesnt really work//
+  newAlarms.pop();
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
   sound.pause();
 });
+window.addEventListener("load", setAlarmList);
 
 createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
-//setInterval(checkForAlarm, 1000);
+setInterval(checkForAlarm, 1000);
