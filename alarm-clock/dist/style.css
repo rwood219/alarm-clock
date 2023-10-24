@@ -1,10 +1,27 @@
 #display {
   color: white;
 }
+
+body{
+  background-color: black;
+}
+
+.alarm-ctn-toggle {
+  margin-top: 10%;
+}
+
 .alarm-ctn > button,
 select {
-  height: 50px;
+  height: 100px;
+  width: 75px;
+  margin: 5px;
+  text-align: center;
+  border-radius: 25%;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
 }
+
 .alarm-display {
   color: white;
   font-size: 1em;
@@ -41,6 +58,7 @@ select {
 .alarm-ctn {
   position: relative;
   display: none;
+  margin-top: 200px;
 }
 
 .hide {
@@ -55,4 +73,8 @@ button {
 .alarm-list {
   display: inline-block;
   list-style: none;
+  font-size: 1.5em;
+}
+.alarm-list > li {
+  margin: 1em;
 }

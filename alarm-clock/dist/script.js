@@ -1,4 +1,3 @@
-
 var sound = new Audio(
   "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
 );
@@ -6,7 +5,7 @@ var sound = new Audio(
 sound.loop = true;
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
-const alarmToggleBtn = document.querySelector('.alarm-ctn-toggle');
+const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
 
 setDisplay = () => {
   const d = new Date();
@@ -27,9 +26,13 @@ addAlarmToStorage = () => {
 setAlarmList = () => {
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
-  storedAlarms.forEach((storedAlarms) => {
-    createLi(alarmList, storedAlarms);
-  });
+  if (storedAlarms === null) {
+    console.log("no stored alarms");
+    return;
+  } else
+    storedAlarms.forEach((storedAlarms) => {
+      createLi(alarmList, storedAlarms);
+    });
 };
 
 updateAlarmList = () => {
@@ -44,7 +47,7 @@ createLi = (x, y) => {
 
 const clearAllAlarms = () => {
   localStorage.clear();
-  alarmList.innerHTML =  localStorage.getItem('alarms')
+  alarmList.innerHTML = localStorage.getItem("alarms");
 };
 
 checkForAlarm = () => {
@@ -52,13 +55,14 @@ checkForAlarm = () => {
   let currentTime = d.toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
-  for (i = 0; i <= storedAlarms.length; i++) {
-    if (currentTime === storedAlarms[i]) {
-      sound.play();
-      console.log('ALARM!!!!!')
-    } else {
-      console.log("no alarm", storedAlarms[i]);
+  if (storedAlarms) {
+    for (i = 0; i <= storedAlarms.length; i++) {
+      if (storedAlarms.some((alarmTime) => alarmTime === currentTime)) {
+        sound.play();
+      }
     }
+  } else {
+    console.log("no alarm");
   }
 };
 
@@ -84,9 +88,9 @@ createMinuteOptions = () => {
   }
 };
 
-alarmToggleBtn.addEventListener('click', ()=>{
-  alarmctn = document.querySelector('.alarm-ctn')
-  alarmctn.classList.toggle('hide')
+alarmToggleBtn.addEventListener("click", () => {
+  alarmctn = document.querySelector(".alarm-ctn");
+  alarmctn.classList.toggle("hide");
 });
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
@@ -96,19 +100,38 @@ document.querySelector("#add-more-alarms").addEventListener("click", () => {
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
-//  clearAllAlarms();
- // newAlarms.pop();
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
   sound.pause();
-  setInterval(()=>{sound.play()},30000)
+  setInterval(() => {
+    sound.play();
+  }, 30000);
 });
-
 
 window.addEventListener("load", setAlarmList);
 
 createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
-setInterval(checkForAlarm, 1000);
+
+const storedAlarmsJson = localStorage.getItem("alarms");
+const storedAlarms = JSON.parse(storedAlarmsJson);
+
+if (storedAlarms === null) {
+  console.log("no alarms in storage");
+} else {
+  setInterval(checkForAlarm, 1000);
+  console.log(newAlarms);
+}
+
+const alarmListItems = document.querySelectorAll(".alarm-list li");
+
+document.addEventListener("DOMContentLoaded", () => {
+  alarmListItems.forEach((alarmListItem) => {
+    alarmListItem.addEventListener("click", (e) => {
+      e.stopPropagation();
+      console.log("click");
+    });
+  });
+});
