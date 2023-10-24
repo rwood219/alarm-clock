@@ -10,41 +10,47 @@ setDisplay = () => {
   document.querySelector("#display").innerHTML = currentTime;
 };
 
-setAlarmsToStorage = () => {
-  const newAlarmsJson = JSON.stringify(newAlarms);
-  localStorage.setItem("alarms", newAlarmsJson);
-};
-
-addAlarm = () => {
+addAlarmToStorage = () => {
   newAlarmh = document.querySelector(".hours").value;
   newAlarmM = document.querySelector(".minutes").value;
   newAlarmAmPm = document.querySelector(".amPm").value;
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
-  setAlarmsToStorage();
+  const newAlarmsJson = JSON.stringify(newAlarms);
+  localStorage.setItem("alarms", newAlarmsJson);
+  console.log(localStorage.getItem('alarms'))
 };
 
 setAlarmList = () => {
-  //get items form local storage
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
-  //generate html elements from local storage
-  console.log(storedAlarms[1], storedAlarms);
   let alarmList = document.querySelector(".alarm-list");
-
-  for (i = 0; i < storedAlarms.length; i++) {
-    let newLi = document.createElement("li");
-    newLi.innerText = storedAlarms[i];
-    alarmList.append(newLi);
-  }
+  createLi(alarmList, storedAlarms)
+  console.log(storedAlarms)
 };
 
+createLi = (x, y) => {
+let newLi = document.createElement('li')
+newLi.innerHTML = y
+x.append(newLi)
+};
+
+
 window.addEventListener("load", setAlarmList);
+
+const clearAllAlarms = () => {
+  localStorage.setItem("alarms", []);
+  console.log(localStorage.getItem("alarms"));
+};
 
 checkForAlarm = () => {
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
-  const storedAlarms = JSON.parse(storedAlarmsJson);
+  try {
+    const storedAlarms = JSON.parse(storedAlarmsJson);
+  } catch (error) {
+    console.log("Error parsing JSON:", error);
+  }
   for (i = 0; i <= newAlarms.length; i++) {
     if (currentTime === storedAlarms[i]) {
       sound.play();
@@ -75,13 +81,14 @@ createMinuteOptions = () => {
 };
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
-  addAlarm();
+  addAlarmToStorage();
   setAlarmList();
 });
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
-  newAlarms.pop();
+  clearAllAlarms();
+  newAlarms.pop(); //doesnt really work//
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
@@ -91,4 +98,4 @@ document.querySelector("#alarm-snooze").addEventListener("click", () => {
 createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
-setInterval(checkForAlarm, 1000);
+//setInterval(checkForAlarm, 1000);
