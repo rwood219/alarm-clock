@@ -3,6 +3,9 @@ var sound = new Audio(
 );
 sound.loop = true;
 let newAlarms = [];
+let alarmList = document.querySelector(".alarm-list");
+const alarmToggleBtn = document.querySelector('.alarm-ctn-toggle');
+
 
 setDisplay = () => {
   const d = new Date();
@@ -14,9 +17,6 @@ addAlarmToStorage = () => {
   const newAlarmh = document.querySelector(".hours").value;
   const newAlarmM = document.querySelector(".minutes").value;
   const newAlarmAmPm = document.querySelector(".amPm").value;
-  const newAlarmTime = JSON.stringify(
-    `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`
-  );
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
   const newAlarmsJson = JSON.stringify(newAlarms);
   localStorage.setItem("alarms", newAlarmsJson);
@@ -45,7 +45,7 @@ createLi = (x, y) => {
 
 const clearAllAlarms = () => {
   localStorage.clear();
-  console.log(localStorage.getItem("alarms"));
+  alarmList.innerHTML =  localStorage.getItem('alarms')
 };
 
 checkForAlarm = () => {
@@ -83,6 +83,12 @@ createMinuteOptions = () => {
     x.add(option);
   }
 };
+
+alarmToggleBtn.addEventListener('click', ()=>{
+  alarmctn = document.querySelector('.alarm-ctn')
+  alarmctn.classList.toggle('hide')
+  console.log('click')
+})
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addAlarmToStorage();

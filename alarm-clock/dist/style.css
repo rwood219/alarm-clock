@@ -37,6 +37,11 @@
 
 .alarm-ctn {
   position: relative;
+  display: none;
+}
+
+.hide {
+  display: flex !important; 
 }
 
 button {
