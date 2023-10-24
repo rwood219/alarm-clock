@@ -7,7 +7,7 @@ sound.loop = true;
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
-document.querySelector('.date-time').setAttribute('min', new Date())
+//document.querySelector('.date-time').setAttribute('min', new Date())
 
 setDisplay = () => {
   const d = new Date();
@@ -140,3 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+settingsBtnClick = () => {
+  console.log('should open settings tab open')
+}
