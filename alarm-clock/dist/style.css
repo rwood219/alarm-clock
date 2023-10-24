@@ -1,7 +1,10 @@
 #display {
   color: white;
 }
-
+.alarm-ctn > button,
+select {
+  height: 50px;
+}
 .alarm-display {
   color: white;
   font-size: 1em;
@@ -41,7 +44,7 @@
 }
 
 .hide {
-  display: flex !important; 
+  display: flex !important;
 }
 
 button {
@@ -51,4 +54,5 @@ button {
 
 .alarm-list {
   display: inline-block;
+  list-style: none;
 }

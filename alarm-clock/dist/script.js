@@ -1,11 +1,12 @@
+
 var sound = new Audio(
   "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
 );
+
 sound.loop = true;
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector('.alarm-ctn-toggle');
-
 
 setDisplay = () => {
   const d = new Date();
@@ -26,14 +27,12 @@ addAlarmToStorage = () => {
 setAlarmList = () => {
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
-  let alarmList = document.querySelector(".alarm-list");
   storedAlarms.forEach((storedAlarms) => {
     createLi(alarmList, storedAlarms);
   });
 };
 
 updateAlarmList = () => {
-  let alarmList = document.querySelector(".alarm-list");
   createLi(alarmList, newAlarms.slice(-1));
 };
 
@@ -56,8 +55,9 @@ checkForAlarm = () => {
   for (i = 0; i <= storedAlarms.length; i++) {
     if (currentTime === storedAlarms[i]) {
       sound.play();
+      console.log('ALARM!!!!!')
     } else {
-      console.log("no alarm");
+      console.log("no alarm", storedAlarms[i]);
     }
   }
 };
@@ -87,8 +87,7 @@ createMinuteOptions = () => {
 alarmToggleBtn.addEventListener('click', ()=>{
   alarmctn = document.querySelector('.alarm-ctn')
   alarmctn.classList.toggle('hide')
-  console.log('click')
-})
+});
 
 document.querySelector("#add-more-alarms").addEventListener("click", () => {
   addAlarmToStorage();
@@ -97,13 +96,16 @@ document.querySelector("#add-more-alarms").addEventListener("click", () => {
 
 document.querySelector("#alarm-stop").addEventListener("click", () => {
   sound.pause();
-  clearAllAlarms();
-  newAlarms.pop();
+//  clearAllAlarms();
+ // newAlarms.pop();
 });
 
 document.querySelector("#alarm-snooze").addEventListener("click", () => {
   sound.pause();
+  setInterval(()=>{sound.play()},30000)
 });
+
+
 window.addEventListener("load", setAlarmList);
 
 createHourOptions();
