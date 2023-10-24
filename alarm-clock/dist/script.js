@@ -1,11 +1,13 @@
 var sound = new Audio(
   "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
 );
+const todayDate = new Date();
 
 sound.loop = true;
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
+document.querySelector('.date-time').setAttribute('min', new Date())
 
 setDisplay = () => {
   const d = new Date();
@@ -17,6 +19,8 @@ addAlarmToStorage = () => {
   const newAlarmh = document.querySelector(".hours").value;
   const newAlarmM = document.querySelector(".minutes").value;
   const newAlarmAmPm = document.querySelector(".amPm").value;
+  const dateInput = document.querySelector(".date-time");
+  const selectedDate = dateInput.value;
   newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
   const newAlarmsJson = JSON.stringify(newAlarms);
   localStorage.setItem("alarms", newAlarmsJson);
@@ -53,6 +57,9 @@ const clearAllAlarms = () => {
 checkForAlarm = () => {
   let d = new Date();
   let currentTime = d.toLocaleTimeString();
+  const dateInput = document.querySelector(".date-time");
+  const selectedDate = dateInput.value;
+  const timeandDate = `${currentTime} ${selectedDate}`;
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
   if (storedAlarms) {
@@ -61,8 +68,6 @@ checkForAlarm = () => {
         sound.play();
       }
     }
-  } else {
-    console.log("no alarm");
   }
 };
 
@@ -126,7 +131,7 @@ if (storedAlarms === null) {
 }
 
 const alarmListItems = document.querySelectorAll(".alarm-list li");
-
+//not working
 document.addEventListener("DOMContentLoaded", () => {
   alarmListItems.forEach((alarmListItem) => {
     alarmListItem.addEventListener("click", (e) => {

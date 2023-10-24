@@ -7,12 +7,16 @@ body{
 }
 
 .alarm-ctn-toggle {
+  position: relative;
   margin-top: 10%;
+  height: 10em;
+  width: 10em;
+  z-index: 10;
 }
 
 .alarm-ctn > button,
 select {
-  height: 100px;
+  height: 5em;
   width: 75px;
   margin: 5px;
   text-align: center;
@@ -77,4 +81,14 @@ button {
 }
 .alarm-list > li {
   margin: 1em;
+}
+
+.date-time {
+  border-radius: 25%;
+}
+
+.settings-btn{
+ bottom: 0;
+ margin-bottom: 10px;
+ position: absolute;
 }
