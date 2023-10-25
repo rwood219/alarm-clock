@@ -7,7 +7,7 @@ sound.loop = true;
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
-//document.querySelector('.date-time').setAttribute('min', new Date())
+document.querySelector('.date-time').setAttribute('min', new Date())
 
 setDisplay = () => {
   const d = new Date();
@@ -21,26 +21,51 @@ addAlarmToStorage = () => {
   const newAlarmAmPm = document.querySelector(".amPm").value;
   const dateInput = document.querySelector(".date-time");
   const selectedDate = dateInput.value;
-  newAlarms.push(`${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`);
+  newAlarmInputObj = {
+    newTimeInput: `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`,
+    newDateInput: selectedDate,
+    repeat: false,
+
+  };
+  newAlarms.push(newAlarmInputObj);
   const newAlarmsJson = JSON.stringify(newAlarms);
   localStorage.setItem("alarms", newAlarmsJson);
-  console.log(localStorage.getItem("alarms"));
+  let storedAlarmsJson = localStorage.getItem("alarms");
+  let storedAlarms = JSON.parse(storedAlarmsJson);
+  console.log(storedAlarms[0].newTimeInput, storedAlarms[0].newDateInput);
 };
 
-setAlarmList = () => {
+checkForAlarm = () => {
+  let d = new Date();
+  let currentTime = d.toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
+  if (storedAlarms) {
+    for (i = 0; i < storedAlarms.length; i++) {
+      if(storedAlarms[i].newTimeInput === currentTime && storedAlarms[i].newDateInput === d)
+      // if (storedAlarms.some((alarmTime) => alarmTime === currentTime)) {
+        sound.play();
+      }
+    }
+  }
+//};
+
+setAlarmList = () => {
+  let storedAlarmsJson = localStorage.getItem("alarms");
+  let storedAlarms = JSON.parse(storedAlarmsJson);
+ 
   if (storedAlarms === null) {
     console.log("no stored alarms");
     return;
   } else
     storedAlarms.forEach((storedAlarms) => {
-      createLi(alarmList, storedAlarms);
+      createLi(alarmList, storedAlarms.newTimeInput);
     });
 };
 
 updateAlarmList = () => {
-  createLi(alarmList, newAlarms.slice(-1));
+  console.log(newAlarms.slice(-1)[0].newTimeInput)
+  createLi(alarmList, newAlarms.slice(-1)[0].newTimeInput);
 };
 
 createLi = (x, y) => {
@@ -54,22 +79,7 @@ const clearAllAlarms = () => {
   alarmList.innerHTML = localStorage.getItem("alarms");
 };
 
-checkForAlarm = () => {
-  let d = new Date();
-  let currentTime = d.toLocaleTimeString();
-  const dateInput = document.querySelector(".date-time");
-  const selectedDate = dateInput.value;
-  const timeandDate = `${currentTime} ${selectedDate}`;
-  const storedAlarmsJson = localStorage.getItem("alarms");
-  const storedAlarms = JSON.parse(storedAlarmsJson);
-  if (storedAlarms) {
-    for (i = 0; i <= storedAlarms.length; i++) {
-      if (storedAlarms.some((alarmTime) => alarmTime === currentTime)) {
-        sound.play();
-      }
-    }
-  }
-};
+
 
 createHourOptions = () => {
   for (i = 1; i <= 12; i++) {
@@ -142,5 +152,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 settingsBtnClick = () => {
-  console.log('should open settings tab open')
-}
+  console.log("should open settings tab open");
+};
