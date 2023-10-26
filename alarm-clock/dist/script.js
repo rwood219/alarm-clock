@@ -7,7 +7,7 @@ sound.loop = true;
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
-document.querySelector('.date-time').setAttribute('min', new Date())
+document.querySelector(".date-time").setAttribute("min", new Date());
 
 setDisplay = () => {
   const d = new Date();
@@ -21,29 +21,33 @@ addAlarmToStorage = () => {
   const newAlarmAmPm = document.querySelector(".amPm").value;
   const dateInput = document.querySelector(".date-time");
   const selectedDate = dateInput.value;
-  newAlarmInputObj = {
-    newTimeInput: `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`,
-    newDateInput: selectedDate,
-    repeat: false,
 
-  };
-  newAlarms.push(newAlarmInputObj);
-  const newAlarmsJson = JSON.stringify(newAlarms);
-  localStorage.setItem("alarms", newAlarmsJson);
-  ////////////////////////////////////////////////
-  let storedAlarmsJson = localStorage.getItem("alarms");
-  let storedAlarms = JSON.parse(storedAlarmsJson);
-  console.log(storedAlarms[0].newTimeInput, storedAlarms[0].newDateInput,'new date', new Date().toISOString().slice(0, 10));
+  if (selectedDate && newAlarmh && newAlarmM && newAlarmAmPm) {
+    newAlarmInputObj = {
+      newTimeInput: `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`,
+      newDateInput: selectedDate,
+      repeat: false,
+    };
+
+    newAlarms.push(newAlarmInputObj);
+    const newAlarmsJson = JSON.stringify(newAlarms);
+    localStorage.setItem("alarms", newAlarmsJson);
+  } else {
+    alert("invalid entry");
+  }
 };
 
 checkForAlarm = () => {
-  let isoDate = new Date().toISOString().slice(1,10);
+  let isoDate = new Date().toISOString().slice(1, 10);
   let currentTime = new Date().toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
   if (storedAlarms) {
     for (i = 0; i < storedAlarms.length; i++) {
-      if(storedAlarms[i].newTimeInput === currentTime && storedAlarms[i].newDateInput === isoDate){
+      if (
+        storedAlarms[i].newTimeInput === currentTime &&
+        storedAlarms[i].newDateInput === isoDate
+      ) {
         sound.play();
       }
     }
@@ -53,7 +57,7 @@ checkForAlarm = () => {
 setAlarmList = () => {
   let storedAlarmsJson = localStorage.getItem("alarms");
   let storedAlarms = JSON.parse(storedAlarmsJson);
- 
+
   if (storedAlarms === null) {
     console.log("no stored alarms");
     return;
@@ -64,7 +68,7 @@ setAlarmList = () => {
 };
 
 updateAlarmList = () => {
-  console.log(newAlarms.slice(-1)[0].newTimeInput)
+  console.log(newAlarms.slice(-1)[0].newTimeInput);
   createLi(alarmList, newAlarms.slice(-1)[0].newTimeInput);
 };
 
@@ -78,8 +82,6 @@ const clearAllAlarms = () => {
   localStorage.clear();
   alarmList.innerHTML = localStorage.getItem("alarms");
 };
-
-
 
 createHourOptions = () => {
   for (i = 1; i <= 12; i++) {
