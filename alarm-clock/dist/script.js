@@ -30,25 +30,25 @@ addAlarmToStorage = () => {
   newAlarms.push(newAlarmInputObj);
   const newAlarmsJson = JSON.stringify(newAlarms);
   localStorage.setItem("alarms", newAlarmsJson);
+  ////////////////////////////////////////////////
   let storedAlarmsJson = localStorage.getItem("alarms");
   let storedAlarms = JSON.parse(storedAlarmsJson);
-  console.log(storedAlarms[0].newTimeInput, storedAlarms[0].newDateInput);
+  console.log(storedAlarms[0].newTimeInput, storedAlarms[0].newDateInput,'new date', new Date().toISOString().slice(0, 10));
 };
 
 checkForAlarm = () => {
-  let d = new Date();
-  let currentTime = d.toLocaleTimeString();
+  let isoDate = new Date().toISOString().slice(1,10);
+  let currentTime = new Date().toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
   if (storedAlarms) {
     for (i = 0; i < storedAlarms.length; i++) {
-      if(storedAlarms[i].newTimeInput === currentTime && storedAlarms[i].newDateInput === d)
-      // if (storedAlarms.some((alarmTime) => alarmTime === currentTime)) {
+      if(storedAlarms[i].newTimeInput === currentTime && storedAlarms[i].newDateInput === isoDate){
         sound.play();
       }
     }
   }
-//};
+};
 
 setAlarmList = () => {
   let storedAlarmsJson = localStorage.getItem("alarms");
