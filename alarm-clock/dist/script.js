@@ -49,6 +49,7 @@ checkForAlarm = () => {
         storedAlarms[i].newDateInput === isoDate
       ) {
         sound.play();
+        console.log("Alarm triggered");
       }
     }
   }
@@ -63,13 +64,23 @@ setAlarmList = () => {
     return;
   } else
     storedAlarms.forEach((storedAlarms) => {
-      createLi(alarmList, storedAlarms.newTimeInput);
+      createLi(
+        alarmList,
+        `${storedAlarms.newTimeInput}${" "}${storedAlarms.newDateInput.slice(
+          5,
+          10
+        )}`
+      );
     });
 };
 
 updateAlarmList = () => {
-  console.log(newAlarms.slice(-1)[0].newTimeInput);
-  createLi(alarmList, newAlarms.slice(-1)[0].newTimeInput);
+  createLi(
+    alarmList,
+    `${
+      newAlarms.slice(-1)[0].newTimeInput
+    }${" "}${storedAlarms.newDateInput.slice(5, 10)}`
+  );
 };
 
 createLi = (x, y) => {
@@ -141,6 +152,14 @@ if (storedAlarms === null) {
   setInterval(checkForAlarm, 1000);
   console.log(newAlarms);
 }
+const brightnessSlider = document.getElementById("brightness");
+
+brightnessSlider.addEventListener("input", function () {
+  const brightnessValue = this.value; // Get the current slider value
+  const brightnessPercentage = brightnessValue + "%";
+
+  document.body.style.filter = `brightness(${brightnessPercentage})`;
+});
 
 const alarmListItems = document.querySelectorAll(".alarm-list li");
 //not working
@@ -154,5 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 settingsBtnClick = () => {
-  console.log("should open settings tab open");
+  const settingsPopup = document.querySelector(".settings-popup");
+  settingsPopup.classList.toggle("hide");
 };

@@ -2,7 +2,7 @@
   color: white;
 }
 
-body{
+body {
   background-color: black;
 }
 
@@ -16,7 +16,8 @@ body{
 }
 
 .alarm-ctn > button,
-select, .date-time {
+select,
+.date-time {
   height: 5em;
   width: 75px;
   margin: 5px;
@@ -27,7 +28,7 @@ select, .date-time {
   font-size: 1em;
 }
 
-.date-time{
+.date-time {
   width: 150px;
 }
 
@@ -93,8 +94,26 @@ button {
   border-radius: 25%;
 }
 
-.settings-btn{
- bottom: 0;
- margin-bottom: 10px;
- position: absolute;
+.settings-btn {
+  bottom: 0;
+  margin-bottom: 10px;
+  position: absolute;
+}
+
+#brightness-slider {
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  color: white;
+  font-size: large;
+  margin: 40px 20px 20px 50px;
+}
+
+#brightness {
+  width: 150px;
+  margin-left: 10px;
+}
+
+.settings-popup {
+  display: none;
 }
