@@ -44,9 +44,16 @@ checkForAlarm = () => {
   const storedAlarms = JSON.parse(storedAlarmsJson);
   if (storedAlarms) {
     for (i = 0; i < storedAlarms.length; i++) {
+      const currentStoredAlarm = storedAlarms[i];
       if (
-        storedAlarms[i].newTimeInput === currentTime &&
-        storedAlarms[i].newDateInput === isoDate
+        currentStoredAlarm.repeat === true &&
+        currentStoredAlarm.newTimeInput === currentTime
+      ) {
+        sound.play();
+        console.log(currentStoredAlarm);
+      } else if (
+        currentStoredAlarm.newTimeInput === currentTime &&
+        currentStoredAlarm.newDateInput === isoDate
       ) {
         sound.play();
         console.log("Alarm triggered");

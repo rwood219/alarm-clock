@@ -98,6 +98,9 @@ button {
   bottom: 0;
   margin-bottom: 10px;
   position: absolute;
+  opacity: 60%;
+  background:transparent;
+  color: white;
 }
 
 #brightness-slider {
@@ -108,12 +111,19 @@ button {
   font-size: large;
   margin: 40px 20px 20px 50px;
 }
+ #volume-slider {
+  align-items: center;
+  color: white;
+  font-size: large;
+  margin: 40px 20px 20px 50px;
+}
 
-#brightness {
+#brightness, #volume {
   width: 150px;
-  margin-left: 10px;
+  margin: 10px;
 }
 
 .settings-popup {
   display: none;
+  position: relative;
 }

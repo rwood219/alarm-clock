@@ -32,6 +32,7 @@
       <button id="add-more-alarms">+</button>
       <button id="alarm-snooze">Snooze</button>
       <button id="alarm-stop">Stop</button>
+      <button id="repeat"></button>
 
       <button id="alarm-clear" onclick="clearAllAlarms()">Clear alarms</button>
       <ul class="alarm-list"></ul>
@@ -39,7 +40,7 @@
     <div>
       <i
         onclick="settingsBtnClick()"
-        style="background-color: rgb(14, 8, 8); color: white"
+       
         class="settings-btn fas fa-cogs fa-4x"
       ></i>
     </div>
@@ -49,6 +50,17 @@
         <input
           type="range"
           id="brightness"
+          min="0"
+          max="100"
+          step="1"
+          value="100"
+        />
+      </div>
+      <div id="volume-slider">
+        <label for="volume">Volume:</label>
+        <input
+          type="range"
+          id="volume"
           min="0"
           max="100"
           step="1"
