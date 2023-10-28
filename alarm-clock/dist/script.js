@@ -1,13 +1,16 @@
-var sound = new Audio(
-  "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav"
-);
-const todayDate = new Date();
-
+const sounds = [
+  "https://freesound.org/s/707050/",
+  "https://www.freespecialeffects.co.uk/soundfx/animals/duck1.wav",
+];
+const sound = new Audio(sounds[0]);
 sound.loop = true;
+const todayDate = new Date();
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
-document.querySelector(".date-time").setAttribute("min", new Date());
+const storedAlarmsJson = localStorage.getItem("alarms");
+const storedAlarms = JSON.parse(storedAlarmsJson);
+const brightnessSlider = document.getElementById("brightness");
 
 setDisplay = () => {
   const d = new Date();
@@ -21,10 +24,12 @@ addAlarmToStorage = () => {
   const newAlarmAmPm = document.querySelector(".amPm").value;
   const dateInput = document.querySelector(".date-time");
   const selectedDate = dateInput.value;
-
+  const repeatToggle = document.querySelector('#repeat')
   if (selectedDate && newAlarmh && newAlarmM && newAlarmAmPm) {
     newAlarmInputObj = {
       newTimeInput: `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`,
+      newHourInput: newAlarmh,
+      newMinuteInput: newAlarmM,
       newDateInput: selectedDate,
       repeat: false,
     };
@@ -50,13 +55,12 @@ checkForAlarm = () => {
         currentStoredAlarm.newTimeInput === currentTime
       ) {
         sound.play();
-        console.log(currentStoredAlarm);
+        console.log(currentStoredAlarm, "Alarm triggered");
       } else if (
         currentStoredAlarm.newTimeInput === currentTime &&
         currentStoredAlarm.newDateInput === isoDate
       ) {
         sound.play();
-
         console.log("Alarm triggered");
       }
     }
@@ -82,7 +86,6 @@ setAlarmList = () => {
     });
   }
 };
-
 updateAlarmList = () => {
   createLi(
     alarmList,
@@ -152,17 +155,6 @@ createHourOptions();
 createMinuteOptions();
 setInterval(setDisplay, 1000);
 
-const storedAlarmsJson = localStorage.getItem("alarms");
-const storedAlarms = JSON.parse(storedAlarmsJson);
-
-if (storedAlarms === null) {
-  console.log("no alarms in storage");
-} else {
-  setInterval(checkForAlarm, 1000);
-  console.log(newAlarms);
-}
-const brightnessSlider = document.getElementById("brightness");
-
 brightnessSlider.addEventListener("input", function () {
   const brightnessValue = this.value; // Get the current slider value
   const brightnessPercentage = brightnessValue + "%";
@@ -185,3 +177,10 @@ settingsBtnClick = () => {
   const settingsPopup = document.querySelector(".settings-popup");
   settingsPopup.classList.toggle("hide");
 };
+
+if (storedAlarms === null) {
+  console.log("no alarms in storage");
+} else {
+  setInterval(checkForAlarm, 1000);
+  console.log(newAlarms);
+}

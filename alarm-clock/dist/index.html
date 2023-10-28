@@ -19,7 +19,7 @@
       </div>
     </div>
     <button class="alarm-ctn-toggle">Alarms</button>
-    <button id="alarm-snooze">Snooze</button> 
+    <button id="alarm-snooze">Snooze</button>
     <div class="alarm-display"></div>
 
     <div class="alarm-ctn">
@@ -29,18 +29,16 @@
         <option>AM</option>
         <option>PM</option>
       </select>
-      <input class="date-time" type="date" />
+      <input class="date-time" type="datetime-local" />
       <button id="add-more-alarms">+</button>
       <button id="alarm-stop">Stop</button>
-      <button id="repeat"></button>
-
+      <button id="repeat">Repeat</button>
       <button id="alarm-clear" onclick="clearAllAlarms()">Clear alarms</button>
       <ul class="alarm-list"></ul>
     </div>
     <div>
       <i
         onclick="settingsBtnClick()"
-       
         class="settings-btn fas fa-cogs fa-4x"
       ></i>
     </div>
