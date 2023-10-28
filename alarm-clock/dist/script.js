@@ -56,6 +56,7 @@ checkForAlarm = () => {
         currentStoredAlarm.newDateInput === isoDate
       ) {
         sound.play();
+
         console.log("Alarm triggered");
       }
     }
@@ -69,7 +70,7 @@ setAlarmList = () => {
   if (storedAlarms === null) {
     console.log("no stored alarms");
     return;
-  } else
+  } else {
     storedAlarms.forEach((storedAlarms) => {
       createLi(
         alarmList,
@@ -79,6 +80,7 @@ setAlarmList = () => {
         )}`
       );
     });
+  }
 };
 
 updateAlarmList = () => {
