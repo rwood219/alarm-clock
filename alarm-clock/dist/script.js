@@ -45,14 +45,14 @@ addAlarmToStorage = () => {
   }
 };
 setInterval(() => {
-  console.log(new Date().getSeconds());
+  //console.log(new Date().getSeconds());
   if (storedAlarms === null) {
     console.log("No Alarms Stored");
     return;
   }
   if (new Date().getSeconds() === 0) {
     checkForAlarm();
-    console.log("zero");
+    console.log("Checking for alarm match");
   }
 }, 1000);
 

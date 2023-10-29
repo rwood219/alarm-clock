@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "howler": "^2.2.4"
+    "express": "^4.18.2",
+    "howler": "^2.2.4",
+    "mongodb": "^6.2.0"
   }
 }
