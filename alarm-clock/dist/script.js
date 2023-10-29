@@ -4,7 +4,7 @@ const sounds = [
 ];
 const sound = new Audio(sounds[0]);
 sound.loop = true;
-const todayDate = new Date();
+const todaysDate = new Date();
 let newAlarms = [];
 let alarmList = document.querySelector(".alarm-list");
 const alarmToggleBtn = document.querySelector(".alarm-ctn-toggle");
@@ -23,9 +23,11 @@ addAlarmToStorage = () => {
   const newAlarmM = document.querySelector(".minutes").value;
   const newAlarmAmPm = document.querySelector(".amPm").value;
   const dateInput = document.querySelector(".date-time");
-  const selectedDate = dateInput.value;
-  const repeatToggle = document.querySelector('#repeat')
-  //if no selected date then set equal to todays date
+  let selectedDate = dateInput.value;
+  const repeatToggle = document.querySelector("#repeat");
+  if (!selectedDate) {
+    selectedDate = todaysDate;
+  }
   if (selectedDate && newAlarmh && newAlarmM && newAlarmAmPm) {
     newAlarmInputObj = {
       newTimeInput: `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`,
@@ -42,12 +44,24 @@ addAlarmToStorage = () => {
     alert("invalid entry");
   }
 };
+setInterval(() => {
+  console.log(new Date().getSeconds());
+  if (storedAlarms === null) {
+    console.log("No Alarms Stored");
+    return;
+  }
+  if (new Date().getSeconds() === 0) {
+    checkForAlarm();
+    console.log("zero");
+  }
+}, 1000);
 
 checkForAlarm = () => {
   let isoDate = new Date().toISOString().slice(1, 10);
   let currentTime = new Date().toLocaleTimeString();
   const storedAlarmsJson = localStorage.getItem("alarms");
   const storedAlarms = JSON.parse(storedAlarmsJson);
+  // console.log(new Date().getSeconds())
   if (storedAlarms) {
     for (i = 0; i < storedAlarms.length; i++) {
       const currentStoredAlarm = storedAlarms[i];
@@ -179,9 +193,4 @@ settingsBtnClick = () => {
   settingsPopup.classList.toggle("hide");
 };
 
-if (storedAlarms === null) {
-  console.log("no alarms in storage");
-} else {
-  setInterval(checkForAlarm, 1000);
-  console.log(newAlarms);
-}
+
