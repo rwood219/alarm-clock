@@ -25,6 +25,7 @@ addAlarmToStorage = () => {
   const dateInput = document.querySelector(".date-time");
   const selectedDate = dateInput.value;
   const repeatToggle = document.querySelector('#repeat')
+  //if no selected date then set equal to todays date
   if (selectedDate && newAlarmh && newAlarmM && newAlarmAmPm) {
     newAlarmInputObj = {
       newTimeInput: `${newAlarmh}:${newAlarmM}:00 ${newAlarmAmPm}`,
